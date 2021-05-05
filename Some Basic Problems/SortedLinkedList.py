@@ -1,3 +1,5 @@
+# Inserting the value in sorted manner in a Linked List
+
 class Node:
 	def __init__(self, value):
 		self.value = value
