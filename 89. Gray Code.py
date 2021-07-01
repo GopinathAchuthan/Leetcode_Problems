@@ -9,15 +9,9 @@ class Solution:
 # Solution 2:
 class Solution:
     def grayCode(self, n: int) -> List[int]:
-        grey = ['0','1']
+        binary = ['0','1']
         
-        if n>1:
-            for _ in range(1,n):
-                temp = []
-                for i in range(len(grey)):
-                    temp.append('0'+grey[i])
-                for i in range(len(grey)):
-                    temp.append('1'+grey[~i])
-                grey = temp
+        for _ in range(1,n):
+            binary = ['0'+b for b in binary] + ['1'+b for b in binary[::-1]]
         
-        return [int(s,2) for s in grey]
+        return [int(b,2) for b in binary]
