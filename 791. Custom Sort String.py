@@ -1,3 +1,15 @@
+# QuickSort Short Version
+class Solution:
+    def customSortString(self, order: str, string: str) -> str:
+        mem = defaultdict(lambda: 26)
+        for i,letter in enumerate(order):
+            mem[letter] = i
+        string = [letter for letter in string]
+        string.sort(key=lambda x: mem[x])
+        return "".join(string)
+
+
+# QuickSort Long Version
 class Solution:
     def partition(self,left,right,array,priority):
         pivot = array[right]
