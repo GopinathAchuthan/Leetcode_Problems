@@ -37,6 +37,5 @@ class Solution:
                     return head
                 else:
                     ret_tail.next = temp
-                    break
             
         return ret_head
