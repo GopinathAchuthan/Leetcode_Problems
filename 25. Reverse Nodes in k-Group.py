@@ -32,10 +32,8 @@ class Solution:
                 else:
                     ret_tail.next = rev
                     ret_tail = rev_tail
-            else:
-                if not ret_head:
-                    return head
-                else:
-                    ret_tail.next = temp
+            elif ret_head:
+                ret_tail.next = temp
             
-        return ret_head
+        return ret_head if ret_head else head
+            
