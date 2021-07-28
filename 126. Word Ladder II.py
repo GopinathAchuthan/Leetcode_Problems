@@ -1,81 +1,60 @@
 class Solution:
     def __init__(self):
-        self.allPossibleChars = list(string.ascii_lowercase)
-    
-    def nextAllPossibleWords(self, word):
-        charList = list(word)
-        res = []
-        for i in range(len(charList)):
-            temp = charList[i]
-            for char in self.allPossibleChars:
-                charList[i] = char
-                res.append("".join(charList))
-            charList[i] = temp
-        return res
-    
-    def allPossibleSequence(self, levelWords, heap, endWord):
-        res = []
-        numLevel = len(levelWords)
-            
-        def dfs(seq,level,endWord,numLevel):
-            word = seq[-1]
-            nextWords = heap[word]
-            if endWord in nextWords:
-                res.append(seq+[endWord])
-                
-            level+=1
-            for nextWord in nextWords:
-                if level<numLevel and nextWord in levelWords[level]:
-                    dfs(seq+[nextWord],level,endWord,numLevel)
+        self.nextWords = {}
+        self.ans = []
         
-        dfs(levelWords[0],0,endWord, numLevel)
-        
-        return res
+    def generateNextWord(self, word):
+        letters = string.ascii_lowercase
+        word = [i for i in word]
+        out = set()
+        for i in range(len(word)):
+            temp = word[i]
+            for letter in letters:
+                word[i] = letter
+                out.add("".join(word))
+            word[i] = temp
+        out.discard("".join(word))
+        return out
     
+    def getTransformationSeq(self, layers, idx, seq):
+        if idx == len(layers):
+            self.ans.append(seq)
+            return
+        currWord = seq[-1]
+        for word in layers[idx]:
+            if word in self.nextWords[currWord]:
+                self.getTransformationSeq(layers,idx+1,seq+[word])
+        
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        wordList = set(wordList)
         if endWord not in wordList:
             return []
-        
-        heap = {}
-        queue = [beginWord]
         if beginWord in wordList:
             wordList.remove(beginWord)
-        levelWords = []
-        levelWords.append(queue)
-        found = False
+            
+        layers = []
+        queue = [beginWord]
         
         while(queue):
-            newQueue = []
-            for currWord in queue:
-                if endWord == currWord:
-                    found = True
-                nextWords = self.nextAllPossibleWords(currWord)
-                heap[currWord] = set()
-                for nextWord in nextWords:
-                    if nextWord in wordList:
-                        heap[currWord].add(nextWord)
-                        newQueue.append(nextWord)
+            temp = set()
+            for curr_word in queue:
+                self.nextWords[curr_word] = set()
+                neighbor_words = self.generateNextWord(curr_word)
+                
+                for word in wordList:
+                    if word in neighbor_words:
+                        self.nextWords[curr_word].add(word)
+                temp.update(self.nextWords[curr_word])
+            for word in temp:
+                wordList.remove(word)
             
-            # check whether the endword is found or not
-            if found:
-                levelWords[-1] = [endWord]
+            if endWord in temp:
+                queue = [endWord]
+                layers.append(queue)
                 break
             else:
-                queue = newQueue
-                levelWords.append(queue)
-            
-            # remove words from wordList
-            for word in newQueue:
-                wordList.discard(word)
+                queue = list(temp)
+                layers.append(queue)
         
+        self.getTransformationSeq(layers, 0, [beginWord])
         
-        # Final Check
-        if found:
-            res = self.allPossibleSequence(levelWords,heap,endWord)
-            return res
-        else:
-            return []
-            
-            
-        
+        return self.ans
