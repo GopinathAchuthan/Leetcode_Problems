@@ -1,3 +1,32 @@
+# Method 1: BFS + with two group set
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        N = len(graph)
+        seen = [-1]*N
+        group1 = set()
+        group2 = set()
+        
+        for i in range(N):
+            if seen[i]==-1:
+                seen[i] = 1
+                queue = deque([i])
+                group1.add(i)
+                while queue:
+                    length = len(queue)
+                    for _ in range(length):
+                        vertex = queue.popleft()
+                        for neighbor in graph[vertex]:
+                            if seen[neighbor] == -1:
+                                seen[neighbor] = 1
+                                queue.append(neighbor)
+                                group2.add(neighbor)
+                            elif neighbor in group1:
+                                return False
+                    group1, group2 = group2, group1
+        return True
+                
+
+# Method 2: BFS + with curr level and next level method
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         N = len(graph)
