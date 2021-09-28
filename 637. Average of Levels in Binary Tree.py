@@ -6,25 +6,27 @@
 #         self.right = right
 
 # Method 1: Breath First Search
+
+# Time Complexity: O(N)
+# Space Complexity: O(max(D,L))
+# where N - number of nodes
+#       D - diameter of the tree
+#       L - Height of the tree
 class Solution:
     def averageOfLevels(self, root: TreeNode) -> List[float]:
-        queue = [root]
-        ans = []
-        
-        while(queue):
-            value = count = 0
-            temp = []
-            for node in queue:
-                value+=node.val
-                count+=1
-                if node.left:
-                    temp.append(node.left)
-                if node.right:
-                    temp.append(node.right)
-            ans.append(value/count)
-            queue = temp
-        
-        return ans
+        queue = deque()
+        queue.append(root)
+        res = []
+        while queue:
+            n = len(queue)
+            total = 0
+            for _ in range(n):
+                node = queue.popleft()
+                total += node.val
+                if node.left: queue.append(node.left)
+                if node.right: queue.append(node.right)
+            res.append(total/n)
+        return res
 
 # Method 2: Depth First Search
 class Solution:

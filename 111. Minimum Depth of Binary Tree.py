@@ -4,26 +4,25 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# Time Complexity: O(N)
+# Space Complexity: O(D)
 class Solution:
     def minDepth(self, root: TreeNode) -> int:
-        if not root:
-            return 0
+        level = 0
+        if not root:    return level
         
         queue = [root]
-        level = 0
-        flag = False
-        while(queue):
+        while queue:
             level += 1
             temp = []
             for node in queue:
                 if not node.left and not node.right:
-                    flag = True
+                    return level
                 if node.left:
                     temp.append(node.left)
                 if node.right:
                     temp.append(node.right)
-            if flag: break
             queue = temp
-        
-        return level
+
         

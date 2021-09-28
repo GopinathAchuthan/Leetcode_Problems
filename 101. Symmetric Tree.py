@@ -4,34 +4,31 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# Time Complexity: O(N)
+# Space Complexity: O(N)
 class Solution:
-    def isSymmetric(self, root: TreeNode) -> bool:
-        out = True
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if root is None:
+            return True
         
-        heap = [root]
+        queue = deque([(root,root)])
         
-        while(heap and out):
-            # validate symmetric
-            n = len(heap)//2
-            for i in range(n):
-                if heap[i] and heap[~i]:
-                    if heap[i].val != heap[~i].val:
-                        out = False
-                elif not heap[i] and not heap[~i]:
-                    continue
-                else:
-                    out = False
-            
-            # level order traversal
-            temp = []
-            nextNode = False
-            for node in heap:
-                if node:
-                    nextNode = True
-                    temp.append(node.left)
-                    temp.append(node.right)
-                else:
-                    temp.append(None)
-                    temp.append(None)
-            heap = temp if nextNode else []
-        return out
+        while queue:
+            nodeP, nodeQ = queue.popleft()
+            if nodeP.val!=nodeQ.val:
+                return False
+            if nodeP.left and nodeQ.right:
+                queue.append((nodeP.left, nodeQ.right))
+            elif nodeP.left or nodeQ.right:
+                return False
+            if nodeP.right and nodeQ.left:
+                queue.append((nodeP.right, nodeQ.left))
+            elif nodeP.right or nodeQ.left:
+                return False
+        
+        return True
