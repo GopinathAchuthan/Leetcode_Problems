@@ -4,25 +4,28 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# Time Complexity: O(N)
+# Space Complexity: O(N)
 class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        def post_order_traversal(node):
-            # base case:
-            if not node.left and not node.right:
-                return 0
-            l_pathMax = 0
-            r_pathMax = 0
-            if node.left:
-                l_pathMax = post_order_traversal(node.left)+1
-            if node.right:
-                r_pathMax = post_order_traversal(node.right)+1
-                
-            if post_order_traversal.diameter< l_pathMax+r_pathMax:
-                post_order_traversal.diameter = l_pathMax+r_pathMax
-            return max(l_pathMax, r_pathMax)
-            
-        post_order_traversal.diameter = 0
-        post_order_traversal(root)
-        return post_order_traversal.diameter
-            
-            
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        # if root is None:
+        #     return 0
+        
+        diameter = [0]
+        self.__dfs(root,diameter)
+        return diameter[0]
+    
+    def __dfs(self, node, diameter):
+        left_maxHeight = 0
+        right_maxHeight = 0
+        
+        # recursive calls
+        if node.left:   left_maxHeight = self.__dfs(node.left,diameter)+1
+        if node.right:  right_maxHeight = self.__dfs(node.right,diameter)+1
+        
+        # calc diameter
+        diameter[0] = max(diameter[0], left_maxHeight+right_maxHeight)
+        
+        # return max height
+        return max(left_maxHeight, right_maxHeight)
