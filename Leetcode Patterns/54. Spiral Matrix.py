@@ -1,26 +1,40 @@
-# Time Complexity: O(M*N)
-# Space Complexity: O(1)
+"""
+Topics: Array, Matrix
 
+Time Complexity: O(mn)
+Space Complexity: O(1)
+"""
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        up,down = 0, len(matrix)-1
-        left,right = 0, len(matrix[0])-1
-        res = []
+        r,c = 0, 0
+        m,n = len(matrix)-1, len(matrix[0])-1
+        
+        ans = list()
+        
         while True:
-            if left>right: break
-            for j in range(left,right+1):
-                res.append(matrix[up][j])
-            up+=1
-            if up>down: break
-            for i in range(up,down+1):
-                res.append(matrix[i][right])
-            right-=1
-            if left>right: break
-            for j in range(right,left-1,-1):
-                res.append(matrix[down][j])
-            down-=1
-            if up>down: break
-            for i in range(down,up-1,-1):
-                res.append(matrix[i][left])
-            left+=1
-        return res
+            # left to right
+            if c<=n:
+                for j in range(c,n+1):
+                    ans.append(matrix[r][j])
+                r+=1
+            else:   break
+            # top to bottom
+            if r<=m:
+                for i in range(r,m+1):
+                    ans.append(matrix[i][n])
+                n-=1
+            else:   break
+            # right to left
+            if c<=n:
+                for j in range(n,c-1,-1):
+                    ans.append(matrix[m][j])
+                m-=1
+            else:   break
+            # bottom to top
+            if r<=m:
+                for i in range(m,r-1,-1):
+                    ans.append(matrix[i][c])
+                c+=1
+            else:   break
+        
+        return ans

@@ -1,24 +1,33 @@
-# Time Complexity: O(N*2^N)
-# Space Complexity: O(N*2^N)
+'''
+Topics: Array, Recursion, Backtracking, Enumeration
+
+Time Complexity: O(n*2^n)
+Call Stack Space: O(n)
+Auxiliary Space: O(n)
+Space Complexity: O(n)
+'''
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         res = []
-        nums.sort()
-        self.__helper(nums, [], 0, res)
+        self.func(sorted(nums),0,len(nums),[],res)
         return res
     
-    def __helper(self, arr, slate, i, res):
-        if i == len(arr):
+    def func(self, nums, i, n, slate, res):
+        # base case
+        if i==n:
             res.append(list(slate))
-        else:
-            # exclude
-            k = i+1
-            while(k<len(arr) and arr[i]==arr[k]):
-                k+=1
-            self.__helper(arr, slate, k, res)
-            
-            # include
-            slate.append(arr[i])
-            self.__helper(arr, slate, i+1, res)
-            slate.pop()
-        return          
+            return
+        
+        # resursive calls
+        # exclude nums[i]
+        k=i+1
+        while k<n and nums[i] == nums[k]:
+            k+=1
+        self.func(nums, k, n, slate, res)
+        
+        # include nums[i]
+        slate.append(nums[i])
+        self.func(nums, i+1, n, slate, res)
+        slate.pop()
+        
+        return

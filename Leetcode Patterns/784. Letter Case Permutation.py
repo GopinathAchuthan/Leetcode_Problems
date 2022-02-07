@@ -1,18 +1,28 @@
-# Time Complexity: O(N*2^N)
-# Space Complexity: O(N*2^N)
+'''
+Topics: Enumneration
 
+Time Complexity: O(n*2^n)
+Space Complexity: O(n)
+'''
 class Solution:
     def letterCasePermutation(self, s: str) -> List[str]:
         res = []
-        self.helper(s,0,'',res)
+        n = len(s)
+        self.dfs(s,0,n,list(s), res)
         return res
     
-    def helper(self, s, i, slate, res):
-        if i == len(s):
-            res.append(slate)
+    def dfs(self, s, i, n, slate, res):
+        # base case
+        if i==n:
+            res.append("".join(slate))
             return
-        if s[i].isalpha():
-            self.helper(s,i+1, slate+s[i].lower(), res)
-            self.helper(s,i+1, slate+s[i].upper(), res)
+        
+        # recursive calls
+        if s[i].isnumeric():
+            self.dfs(s,i+1,n,slate,res)
         else:
-            self.helper(s,i+1, slate+s[i], res)
+            slate[i] = s[i].lower()
+            self.dfs(s,i+1,n,slate,res)
+            slate[i] = s[i].upper()
+            self.dfs(s,i+1,n,slate,res)
+        return

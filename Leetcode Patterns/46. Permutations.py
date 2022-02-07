@@ -1,3 +1,9 @@
+"""
+Topics: Array, Backtracking
+
+Time Complexity: O(n*n!)
+Space Complexity: O(1)
+"""
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         res = []

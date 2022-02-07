@@ -1,4 +1,4 @@
-# Time Complexity: O(2^N)
+# Time Complexity: O(N*2^N)
 # Space Complexity: O(N)
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:

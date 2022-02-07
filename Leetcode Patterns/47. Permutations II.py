@@ -1,5 +1,9 @@
-# Time complexity: N!
-# Space complexity: N
+'''
+Topics: Array, Backtracking
+
+Time Complexity: O(n*n!)
+Space Complexity: O(1)
+'''
 from collections import Counter
 
 class Solution:

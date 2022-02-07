@@ -1,3 +1,10 @@
+'''
+Topics: Array, Recursion, Backtracking
+
+Time Complexity: O(k*2^9) == O(k)
+Space Complexity: O(k)
+
+'''
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         res = []
