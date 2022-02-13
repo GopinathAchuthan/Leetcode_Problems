@@ -1,3 +1,9 @@
+'''
+Topics: Backtracking, string
+
+Time Complexity: O(n*2^2n)
+Space Complexity: O(n)
+'''
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         res = []

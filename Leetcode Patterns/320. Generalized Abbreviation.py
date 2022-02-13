@@ -1,22 +1,33 @@
-# Time Complexity: O(N*2^N)
-# Space Complexity: O(N)
+'''
+Topics: Backtracking
+
+Time Complexity: O(n*2^n)
+Auxiliary Space: O(n)
+Call Stack Space: O(n)
+Space Complexity: O(n)
+'''
 class Solution:
     def generateAbbreviations(self, word: str) -> List[str]:
-        res = []
-        self.__helper(word,0,[],res)
-        return res
-    
-    def __helper(self,word,i,slate,res):
-        # base case
-        if i == len(word):
-            res.append(''.join(slate))
-            return
+        def func(i,n,state,slate,res):
+            # base case
+            if i==n:
+                res.append(''.join(slate))
+                return
             
-        if len(slate) == 0 or slate[-1].isalpha():
-            for k in range(1,len(word)-i+1):
-                slate.append(str(k))
-                self.__helper(word,i+k,slate,res)
-                slate.pop()
-        slate.append(word[i])
-        self.__helper(word,i+1,slate,res)
-        slate.pop()
+            # calling recursion function
+            # if state is true, we can swap str with number
+            if state:
+                for num in range(n-i,0,-1):
+                    slate.append(str(num))
+                    func(i+num,n,False,slate,res)
+                    slate.pop()
+            # include str in the slate
+            slate.append(word[i])
+            func(i+1,n,True,slate,res)
+            slate.pop()
+            return
+        
+        
+        res = []
+        func(0,len(word),True,[],res)
+        return res

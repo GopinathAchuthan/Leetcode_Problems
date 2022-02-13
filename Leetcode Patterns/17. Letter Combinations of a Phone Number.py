@@ -1,18 +1,32 @@
-# Time Complexity: O(N*4^N)
-# Space Complexity: O(N)
+'''
+Topics: Recursion, Backtracking
+
+Time Complexity: O(n*4^n)
+Auxiliary Space: O(n)
+Call Stack Space: O(n)
+Space Complexity: O(n)
+'''
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
-        phone = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl',
-                 '6':'mno', '7':'pqrs','8':'tuv', '9':'wxyz'}
-        digits.replace('0','').replace('1','')
+        # base case
+        if len(digits)==0:
+            return []
+        
+        phone = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}
+        
+        def func(i,n,slate,res):
+            # base case
+            if i==n:
+                res.append(''.join(slate))
+                return
+            
+            # calling recursive function
+            for char in phone[digits[i]]:
+                slate.append(char)
+                func(i+1,n,slate, res)
+                slate.pop()
+        
         res = []
-        if len(digits)>0:
-            self.__helper(digits, 0, phone, '', res)
+        func(0,len(digits),[],res)
         return res
-    def __helper(self, digits, i, phone, slate, res):
-        if i==len(digits):
-            res.append(slate)
-            return
-        for char in phone[digits[i]]:
-            self.__helper(digits, i+1, phone, slate+char, res)
         
