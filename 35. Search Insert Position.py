@@ -5,15 +5,16 @@ Space Complexity: O(1)
 Topic: Binary Search
 '''
 class Solution:
-    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
-        left, right = 0, len(letters)-1
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums)-1
         
         while left<=right:
             mid = left+(right-left)//2
-            if letters[mid]<=target:
+            if nums[mid]==target:
+                return mid
+            elif nums[mid]<target:
                 left = mid+1
             else:
                 right = mid-1
-        
-        
-        return letters[left%len(letters)]
+            
+        return left
