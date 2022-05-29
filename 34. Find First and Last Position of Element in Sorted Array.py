@@ -20,7 +20,8 @@ class Solution:
         if left==len(nums) or nums[left]!=target: 
             return [-1,-1]
         
-        left, right = 0, len(nums)-1
+        # left, right = 0, len(nums)-1
+        right = len(nums)-1
         while left<=right:
             mid = left+(right-left)//2
             if nums[mid]<=target:
