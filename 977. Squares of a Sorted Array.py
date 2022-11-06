@@ -1,14 +1,21 @@
+'''
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+Topics: Array, Two pointers
+'''
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        nums = [num*num for num in nums]
-        ans = [0]*n
-        left, right = 0,n-1
-        for i in range(n-1, -1, -1):
-            if nums[left]>=nums[right]:
-                ans[i] = nums[left]
+        ans = [0]*len(nums)
+        left, right = 0, len(nums)-1
+        k = right
+        while left<=right:
+            if abs(nums[left])>=abs(nums[right]):
+                ans[k] = nums[left]*nums[left]
                 left+=1
             else:
-                ans[i] = nums[right]
+                ans[k] = nums[right]*nums[right]
                 right-=1
+            k-=1
+        
         return ans

@@ -1,27 +1,19 @@
-# Time Complexity: O(N)
-# Space Complexity: O(N)
+'''
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+Topics: Array
+'''
 class Solution:
     def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        mem = set([i for i in range(1,n+1)])
-        return list(mem-set(nums))
-
-
-# Time Complexity: O(N)
-# Space Complexity: O(1)
-class Solution:
-    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        res = []
-        for i in range(n):
-            while(i+1 != nums[i]):
-                d = nums[i]
-                if nums[d-1]==d:
-                    break
-                nums[d-1] , nums[i] = nums[i], nums[d-1]
+        for num in nums:
+            d = abs(num) -1
+            if nums[d]>0:
+                nums[d]*=-1
         
-        for i in range(n):
-            if i+1!=nums[i]:
-                res.append(i+1)
+        result = []
+        for i in range(len(nums)):
+            if nums[i]>0:
+                result.append(i+1)
         
-        return res
+        return result

@@ -1,8 +1,10 @@
+'''
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+Topics: String, Hashmap
+'''
 class Solution:
     def checkIfPangram(self, sentence: str) -> bool:
-        heap = set()
-        for char in sentence:
-            heap.add(char)
-        return len(heap) == 26
-        
-        
+        # return len(set(sentence)) == 26
+        return set(sentence)  == set(string.ascii_lowercase)

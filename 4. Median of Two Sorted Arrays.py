@@ -1,87 +1,42 @@
-# Time Complexity = O(log(m+n))
+'''
+Time Complexity: O(log min(m,n))
+Space Complexity: O(1)
+
+Topic: Array, Binary Search
+'''
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        # code here
-        half = (len(nums1)+len(nums2))//2
+        m,n = len(nums1), len(nums2)
         
-        if len(nums1)>len(nums2):
-            nums1,nums2 = nums2,nums1
+        # optimization step
+        if n<m:
+            nums1, nums2 = nums2, nums1
+            m,n = n,m
         
-        l = 0
-        r = len(nums1)-1
-        while(True):
-            i = l+(r-l)//2      # nums1 mid pointer
-            j = half-i-2        # nums2 mid pointer
-            
-            nums1Left = nums1[i] if i>=0 else float('-inf')
-            nums1Right = nums1[i+1] if i+1<len(nums1) else float('inf')
-            nums2Left = nums2[j] if j>=0 else float('-inf')
-            nums2Right = nums2[j+1] if j+1<len(nums2) else float('inf')
-            
-            if nums1Left<=nums2Right and nums2Left<=nums1Right:
-                if (len(nums1)+len(nums2))%2:
-                    return min(nums1Right,nums2Right)
-                else:
-                    return (max(nums1Left,nums2Left)+min(nums1Right,nums2Right))/2
-            elif nums1Left>nums2Right:
-                r = i-1
-            else:
-                l = i+1
-
-# Time Complexity = O(m+n)
-class Solution:
-    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        lenNums1 = len(nums1)
-        lenNums2 = len(nums2)
-        singleMedium = True
-        if (lenNums1+lenNums2)%2==0:
-            singleMedium = False
-            # single median
-        medianIndex = (lenNums1+lenNums2)//2
-        if not singleMedium:
-            medianIndex -= 1
+        k = (m+n)//2
+        left, right = 0, m-1
         
-        i,j,k = 0,0,0
-        while(i<lenNums1 and j<lenNums2):
-            if k == medianIndex:
-                if singleMedium:
-                    return min(nums1[i],nums2[j])
-                else:
-                    if nums1[i]<nums2[j]:
-                        if i+1<lenNums1 and nums1[i+1]<nums2[j]:
-                            print('check1')
-                            return (nums1[i]+nums1[i+1])/2
-                        else:
-                            print('check2')
-                            return (nums1[i]+nums2[j])/2
-                    else:
-                        if j+1<lenNums2 and nums2[j+1]<nums1[i]:
-                            print('check3')
-                            return (nums2[j]+nums2[j+1])/2
-                        else:
-                            print('check4')
-                            return (nums1[i]+nums2[j])/2
-                        
-            if nums1[i]<nums2[j]:
-                i+=1
-            else:
-                j+=1
-            k += 1
-
-        while(i<lenNums1):
-            if k == medianIndex:
-                if singleMedium:
+        while left<=right:
+            i = left+(right-left)//2
+            j = k-1-i
+            nums2_right= nums2[j+1] if j+1<n else float('inf')
+            if nums2[j]<=nums1[i]<=nums2_right:
+                # nums1[i] is the (k+1)th value
+                if (m+n)%2==1:
                     return nums1[i]
                 else:
-                    return (nums1[i]+nums1[i+1])/2
-            k+=1
-            i+=1
-
-        while(j<lenNums2):
-            if k == medianIndex:
-                if singleMedium:
-                    return nums2[j]
-                else:
-                    return (nums2[j]+nums2[j+1])/2
-            k+=1
-            j+=1
+                    nums1_left = nums1[i-1] if i-1>=0 else float('-inf')
+                    return (max(nums1_left, nums2[j])+nums1[i])/2
+            elif nums2[j]>nums1[i]:
+                left = i+1
+            else:
+                right = i-1
+        
+        # if (k+1)th value is present in nums2 list
+        if (m+n)%2==1:
+            return nums2[k-left]
+        else:
+            nums1_left = nums1[right] if right>=0 else float('-inf')
+            nums2_left = nums2[k-left-1] if k-left-1>=0 else float('-inf')
+            return (nums2[k-left]+max(nums1_left,nums2_left))/2
+        

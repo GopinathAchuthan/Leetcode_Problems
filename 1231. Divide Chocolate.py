@@ -17,12 +17,12 @@ class Solution:
         return right
     
     def __getPossibleKValue(self,nums,level):
-        total = 0
+        ans = 0
         temp = 0
         for num in nums:
             temp+=num
             if temp>=level:
-                total+=1
+                ans+=1
                 temp=0
-        return total
+        return ans
         
